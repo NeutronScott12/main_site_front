@@ -3,6 +3,7 @@ import { compose, graphql } from 'react-apollo'
 import { withFormik } from 'formik'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { cloneDeep } from 'lodash'
 
 import {
 	friendResponseMutation,
@@ -36,7 +37,12 @@ class ProfileContainer extends Component {
 	}
 
 	_friendRequestResponse = async (id, boolean) => {
-		const { friendResponse, friendReject } = this.props
+		const {
+			friendResponse,
+			friendReject,
+			match: { params }
+		} = this.props
+		console.log('ID', id)
 		let response
 		if (boolean) {
 			await friendResponse({
@@ -48,7 +54,36 @@ class ProfileContainer extends Component {
 			await friendReject({
 				variables: {
 					id
-				}
+				},
+				refetchQueries: [{ query: profileQuery, variables: { username: params.username } }]
+				// update(
+				// 	store,
+				// 	{
+				// 		data: { friendReject }
+				// 	}
+				// ) {
+				// 	const data = store.readQuery({
+				// 		query: profileQuery,
+				// 		variables: {
+				// 			username: params.username
+				// 		}
+				// 	})
+
+				// 	const changed = cloneDeep(
+				// 		data.getProfile.profile.friend_requests.edges.filter(
+				// 			obj => obj.node.id !== id
+				// 		)
+				// 	)
+				// 	console.log(data)
+
+				// 	store.writeQuery({
+				// 		query: profileQuery,
+				// 		variables: {
+				// 			username: params.username
+				// 		},
+				// 		changed
+				// 	})
+				// }
 			})
 		}
 	}
@@ -123,6 +158,9 @@ export default compose(
 			}
 		}
 	}),
-	connect(mapStatetoProps, null),
+	connect(
+		mapStatetoProps,
+		null
+	),
 	LoadingComponent(props => props.data.loading, CircularSpinner)
 )(ProfileContainer)

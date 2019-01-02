@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const friendReject = gql`
 	mutation($id: ID!) {
-		friendReject(id: $id, friendRequestId: $friendRequestId)
+		friendReject(id: $id)
 	}
 `
 

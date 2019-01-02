@@ -34,10 +34,10 @@ class MainLayout extends Component {
 						{<noscript>{`Turn on Javascript`}</noscript>}
 					</Helmet>
 					<TopNav />
+					<NotifcationContainer />
 					<Container text>
 						<Routes />
 					</Container>
-					<NotifcationContainer />
 				</div>
 			</MainTheme>
 		)

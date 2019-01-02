@@ -43,18 +43,13 @@ export const batchSubscriptions = gql`
 `
 
 export const friendRequestNotification = gql`
-	subscription {
-		friendRequestSubscription {
-			mutation
-			node {
+	subscription($userId: ID!) {
+		friendRequestSubscription(userId: $userID) {
+			friend_request {
+				username
 				id
-				userId
-				friend_request {
-					username
-					id
-					avatar_url {
-						url
-					}
+				avatar_url {
+					url
 				}
 			}
 		}

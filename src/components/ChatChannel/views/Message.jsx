@@ -133,24 +133,7 @@ class MessageContainer extends Component {
 					/>
 				) : null}
 
-				<Comment.Group size="large">
-					{showChannel.messages.map(message => {
-						return (
-							<Comment key={message.id}>
-								<Comment.Avatar src={message.author.avatar_url.url} />
-								<Comment.Content>
-									<Comment.Author as="a">
-										{message.author.username}
-									</Comment.Author>
-									<Comment.Metadata>
-										<Moment fromNow date={new Date(message.createdAt)} />
-									</Comment.Metadata>
-									<Message message={message} />
-								</Comment.Content>
-							</Comment>
-						)
-					})}
-				</Comment.Group>
+				
 				{this.state.fetchMore ? (
 					<div>
 						{showChannel.messages.length < LIMIT ? null : (

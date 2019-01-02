@@ -3,6 +3,7 @@ import { compose, graphql, Subscription } from 'react-apollo'
 import { withRouter, Link } from 'react-router-dom'
 import { Dropdown } from 'semantic-ui-react'
 import { ToastContainer, toast } from 'react-toastify'
+import { connect } from 'react-redux'
 
 import LoadingComponent from '../../utils/Recompose/LoadingComponent'
 import { CircularSpinner } from '../../utils/animations/Spinner'
@@ -17,14 +18,21 @@ const ToastNotification = () => (
 
 class NotificationContainer extends Component {
 	render() {
-		// const {
-		// 	data: { getProfile }
-		// } = this.props
+		const {
+			// data: { getProfile }
+			user
+		} = this.props
+
+		console.log('NOTIFICATION RUNNING')
 
 		return (
 			<ToastContainer>
-				<Subscription subscription={friendRequestNotification}>
+				<Subscription
+					variables={{ userId: user.id }}
+					subscription={friendRequestNotification}
+				>
 					{({ data, loading }) => {
+						console.log('DATA', data)
 						return toast(<ToastNotification />)
 					}}
 				</Subscription>
@@ -33,8 +41,13 @@ class NotificationContainer extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+	user: state.loginReducer
+})
+
 export default compose(
-	withRouter
+	withRouter,
+	connect(mapStateToProps)
 	// graphql(notification, {
 	// 	options: props => ({
 	// 		variables: {

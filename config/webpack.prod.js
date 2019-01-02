@@ -4,11 +4,16 @@ const htmlWebpack = require('html-webpack-plugin')
 const common = require('./webpack.common.js')
 const webpackMerge = require('webpack-merge')
 const webpackClosureCompiler = require('webpack-closure-compiler')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = webpackMerge(common, {
 	mode: 'production',
 	devtool: 'source',
 	plugins: [
+		new WorkboxPlugin.GenerateSW({
+			clientsClaim: true,
+			skipWaiting: true
+		}),
 		new webpack.DefinePlugin({
 			PRODUCTION: JSON.stringify(true)
 		}),

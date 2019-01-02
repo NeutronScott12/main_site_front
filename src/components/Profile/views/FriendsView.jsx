@@ -64,8 +64,7 @@ const FriendsView = ({
 															<button
 																onClick={() =>
 																	friendResponse(
-																		request.node.friend_request
-																			.id,
+																		request.node.id,
 																		false
 																	)
 																}
